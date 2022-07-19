@@ -7,9 +7,9 @@ class MultiplyCommand(BaseCommand):
     """
     Make multiplication of two columns of dataframe
     a, b - columns must be multiplied
-    | add a b - creates a new df
+    | multiply a b - creates a new df
 
-    | add a b as c - creates new column "c" in the old df
+    | multiply a b as c - creates new column "c" in the old df
     """
 
     syntax = Syntax(
@@ -37,14 +37,14 @@ class MultiplyCommand(BaseCommand):
         if result_column_name != "":
             df[result_column_name] = df[first_column] * df[second_column]
             self.logger.debug(f"New column name: {result_column_name}")
-            self.log_progress("Multiplication is complete.", stage=1, total_stages=2)
+            self.log_progress("Multiplication is completed.", stage=1, total_stages=2)
             return df
         else:
-            addition_df = pd.DataFrame(
+            new_df = pd.DataFrame(
                 {
                     f"add_{first_column}_{second_column}": df[first_column].values
                                                            * df[second_column].values
                 }
             )
-            self.log_progress("Multiplication is complete.", stage=1, total_stages=2)
-            return addition_df
+            self.log_progress("Multiplication is completed.", stage=1, total_stages=2)
+            return new_df

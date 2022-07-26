@@ -39,7 +39,7 @@ class MultiplyCommand(BaseCommand):
         result_column_name = second_multiplier_argument.named_as
 
         if isinstance(first_multiplier, (int, float)) and isinstance(second_multiplier, (int, float)):
-            if result_column_name != "":
+            if result_column_name != "" and not df.empty:
                 first_multiplier = np.array([first_multiplier] * df.shape[0])
                 second_multiplier = np.array([second_multiplier] * df.shape[0])
             else:
@@ -52,7 +52,10 @@ class MultiplyCommand(BaseCommand):
         )
 
         if result_column_name != "":
-            df[result_column_name] = first_multiplier * second_multiplier
+            if not df.empty:
+                df[result_column_name] = first_multiplier * second_multiplier
+            else:
+                df = pd.DataFrame({result_column_name: first_multiplier * second_multiplier})
             self.logger.debug(f"New column name: {result_column_name}")
 
         else:
